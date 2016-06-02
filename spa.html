@@ -3,39 +3,44 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 <div class="container">
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter name">
-        </div>
-        <div class="form-group">
-            <label for="reps">Reps:</label>
-            <input type="text" class="form-control" id="reps" placeholder="Enter reps">
-        </div>
-        <div class="form-group">
-            <label for="weight">Weight:</label>
-            <input type="text" class="form-control" id="weight" placeholder="Enter weight">
-        </div>
-        <div class="form-group">
-            <label for="date">Date:</label>
-            <input type="text" class="form-control" id="date" placeholder="Enter date">
-        </div>
-        <div class="form-group">
-            <label for="lbs">lbs:</label>
-            <input type="text" class="form-control" id="lbs" placeholder="Enter lbs">
-        </div>
-        <button type="submit" class="btn btn-default" onclick="addRow()">Add</button>
-    </form>
+    <div class="panel panel-default" style="margin-left: 255px;margin-right: 272px;margin-top: 89px;margin-bottom: 102px;">
+        <div class="panel-body">
 
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label for="reps">Reps:</label>
+                <input type="text" class="form-control" id="reps" placeholder="Enter reps">
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight:</label>
+                <input type="text" class="form-control" id="weight" placeholder="Enter weight">
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="text" class="form-control" id="date" placeholder="Enter date">
+            </div>
+            <div class="form-group">
+                <label for="lbs">lbs:</label>
+                <input type="text" class="form-control" id="lbs" placeholder="Enter lbs">
+            </div>
+            <button type="submit" class="btn btn-default" onclick="addRow()">Add</button>
+        </div>
+    </div>
     <table class="table" id="personDataTable">
         <thead>
         <tr>
+            <th style="display:none">id</th>
             <th>name</th>
             <th>reps</th>
             <th>weight</th>
@@ -47,13 +52,15 @@
 </div>
 
 <script>
+
+
     $.ajax({
         url: 'http://localhost:3000/crud/',
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
             // since we are using jQuery, you don't need to parse response
-            console.log(data);
+//            console.log(data);
             drawTable(data);
         }
     });
@@ -67,50 +74,49 @@
     function drawRow(rowData) {
         var row = $("<tr />")
         $("#personDataTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-        row.append($("<td>" + rowData.id + "</td>"));
+        row.append($("<td style='display:none'>" + rowData.id + "</td>"));
         row.append($("<td>" + rowData.name + "</td>"));
         row.append($("<td>" + rowData.reps + "</td>"));
         row.append($("<td>" + rowData.weight + "</td>"));
         row.append($("<td>" + rowData.date + "</td>"));
         row.append($("<td>" + rowData.lbs + "</td>"));
-        row.append($("<td>"+ "<button type='submit'' class='btn btn-default'>Edit</button>"+ "</td>"));
+        row.append($("<td>"+ "<button type='submit'' class='btn btn-default edit-btn' id="+rowData.id+">Edit</button>"+ "</td>"));
         row.append($("<td>"+ "<button type='submit'' class='btn btn-default'>Delete</button>"+  "</td>"));
 
 
     }
-</script>
-<script>
-
-    $.ajax({
-        url: 'http://localhost:3000/crud/',
-        type: "post",
-        dataType: "json",
-        success: function(data, textStatus, jqXHR) {
-            // since we are using jQuery, you don't need to parse response
-            console.log(data);
-            drawTable(data);
-        }
-    })
-
-//    function drawTable(data) {
-//        for (var i = 0; i < data.length; i++) {
-//            drawRow(data[i]);
-//        }
-    }
-
-    function addRow(rowData) {
-        var row = $("<tr />")
-        $("#personDataTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-        row.append($("<td>" + rowData.id + "</td>"));
-        row.append($("<td>" + rowData.name + "</td>"));
-        row.append($("<td>" + rowData.reps + "</td>"));
-        row.append($("<td>" + rowData.weight + "</td>"));
-        row.append($("<td>" + rowData.date + "</td>"));
-        row.append($("<td>" + rowData.lbs + "</td>"));
-        row.append($("<td>"+ "<button type='submit'' class='btn btn-default'>Edit</button>"+ "</td>"));
-        row.append($("<td>"+ "<button type='submit'' class='btn btn-default'>Delete</button>"+  "</td>"));
 
 
+    $(document).on('click', '.edit-btn', function () {
+
+        window.location.href = 'edit.html';
+    });
+
+
+
+
+    function addRow() {
+
+        var form_data = {
+            'name': $('#name').val(),
+            'reps': $('#reps').val(),
+            'weight': $('#weight').val(),
+            'date': $('#date').val(),
+            'lbs': $('#lbs').val()
+        };
+
+
+        $.ajax({
+            url: 'http://localhost:3000/crud/',
+            type: "post",
+            dataType: "json",
+            data:form_data,
+            success: function(data, textStatus, jqXHR) {
+                // since we are using jQuery, you don't need to parse response
+                alert('fdf');
+                    drawRow(form_data);
+            }
+        })
     }
 
 </script>

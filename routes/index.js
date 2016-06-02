@@ -14,6 +14,7 @@ router.get('/crud',function(req,res,next){
   res.json(
       [
         {
+            "id":"1",
            "name":"laju",
            "reps":"Y",
            "weight":"60",
@@ -21,6 +22,7 @@ router.get('/crud',function(req,res,next){
            "lbs":"true"
         },
         {
+            "id":"2",
           "name":"mounika",
           "reps":"Y",
           "weight":"50",
@@ -28,6 +30,7 @@ router.get('/crud',function(req,res,next){
           "lbs":"true"
         },
         {
+            "id":"3",
           "name":"kavitha",
           "reps":"Y",
           "weight":"50",
@@ -41,12 +44,34 @@ router.get('/crud',function(req,res,next){
 
 router.post('/crud',function(req,res,next){
   res.header('Access-Control-Allow-Origin', '*');
+
   var name=req.body.name;
   var reps=req.body.reps;
   var weight=req.body.weight;
   var date=req.body.date;
   var lbs=req.body.lbs;
 
+    console.log(name);
+    console.log(reps);
+    console.log(weight);
+    console.log(date);
+    console.log(date);
+    res.send("hello");
+
+})
+
+router.put('/crud/:id',function(req,res,next) {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    var name=req.body.name;
+    var reps=req.body.reps;
+    var weight=req.body.weight;
+    var date=req.body.date;
+    var lbs=req.body.lbs;
+
+    console.log(req.id);
+    console.log(name);
+    res.send("update");
 
 
 })
