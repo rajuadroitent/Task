@@ -52,34 +52,6 @@ router.get('/crud',function(req,res,next){
         }).then(function(workout) {
             res.json(workout);
         });
-  //res.json(
-  //    [
-  //      {
-  //          "id":"1",
-  //         "name":"laju",
-  //         "reps":"Y",
-  //         "weight":"60",
-  //         "date":"20/1/1989",
-  //         "lbs":"true"
-  //      },
-  //      {
-  //          "id":"2",
-  //        "name":"mounika",
-  //        "reps":"Y",
-  //        "weight":"50",
-  //        "date":"20/1/1993",
-  //        "lbs":"true"
-  //      },
-  //      {
-  //          "id":"3",
-  //        "name":"kavitha",
-  //        "reps":"Y",
-  //        "weight":"50",
-  //        "date":"20/1/1986",
-  //        "lbs":"true"
-  //      }
-  //      ]
-  //      )
       }
   )
 
@@ -97,7 +69,10 @@ router.post('/crud',function(req,res,next){
     console.log(weight);
     console.log(date);
     console.log(date);
-    res.send("hello");
+    Workout.create({ name: name, reps: reps,weight:weight,lbs:lbs }).then(function(user) {
+        console.log('created');
+    })
+    res.json({status:200});
 
 })
 
